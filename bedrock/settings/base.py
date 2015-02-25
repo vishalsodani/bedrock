@@ -302,6 +302,7 @@ PIPELINE_CSS = {
     },
     'firefox_all': {
         'source_filenames': (
+            'css/base/mozilla-share-cta.less',
             'css/sandstone/sandstone-resp.less',
             'css/firefox/menu-resp.less',
             'css/firefox/all.less',
@@ -1160,6 +1161,7 @@ PIPELINE_JS = {
     },
     'firefox_all': {
         'source_filenames': (
+            'js/base/mozilla-share-cta.js',
             'js/base/mozilla-pager.js',
             'js/firefox/firefox-language-search.js',
         ),
