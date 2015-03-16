@@ -232,7 +232,8 @@
         } else {
             platform = 'Firefox Desktop';
         }
-        gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', platform], callback);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click', downloadVersion: platform, eventCallback: callback});
     });
 
 })(window.jQuery);

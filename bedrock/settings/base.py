@@ -35,10 +35,11 @@ LANGUAGE_CODE = 'en-US'
 # Accepted locales
 PROD_LANGUAGES = ('ach', 'af', 'an', 'ar', 'as', 'ast', 'az', 'be', 'bg',
                   'bn-BD', 'bn-IN', 'br', 'bs', 'ca', 'cs', 'cy',
-                  'da', 'de', 'dsb', 'el', 'en-GB', 'en-US', 'en-ZA', 'eo', 'es-AR',
-                  'es-CL', 'es-ES', 'es-MX', 'et', 'eu', 'fa', 'ff', 'fi', 'fr',
-                  'fy-NL', 'ga-IE', 'gd', 'gl', 'gu-IN', 'ha', 'he', 'hi-IN', 'hr',
-                  'hsb', 'hu', 'hy-AM', 'id', 'is', 'it', 'ja', 'ja-JP-mac',
+                  'da', 'de', 'dsb', 'el', 'en-GB', 'en-US', 'en-ZA',
+                  'eo', 'es-AR', 'es-CL', 'es-ES', 'es-MX', 'et', 'eu',
+                  'fa', 'ff', 'fi', 'fr', 'fy-NL', 'ga-IE', 'gd', 'gl',
+                  'gu-IN', 'ha', 'he', 'hi-IN', 'hr', 'hsb', 'hu',
+                  'hy-AM', 'id', 'ig', 'is', 'it', 'ja', 'ja-JP-mac',
                   'ka', 'kk', 'km', 'kn', 'ko', 'lij', 'lt', 'lv',
                   'mai', 'mk', 'ml', 'mr', 'ms', 'my', 'nb-NO', 'nl',
                   'nn-NO', 'oc', 'or', 'pa-IN', 'pl', 'pt-BR', 'pt-PT',
@@ -264,13 +265,6 @@ PIPELINE_CSS = {
             'css/sandstone/video-resp.less',
         ),
         'output_filename': 'css/contribute-old-bundle.css',
-    },
-    'contribute-page': {
-        'source_filenames': (
-            'css/mozorg/contribute/contribute-form.less',
-            'css/mozorg/contribute/contribute-page.less',
-        ),
-        'output_filename': 'css/contribute-page-bundle.css',
     },
     'contribute-studentambassadors-landing': {
         'source_filenames': (
@@ -657,6 +651,14 @@ PIPELINE_CSS = {
             'css/firefox/whatsnew-android.less',
         ),
         'output_filename': 'css/firefox_whatsnew-bundle.css',
+    },
+    'firefox_whatsnew_37': {
+        'source_filenames': (
+            'css/sandstone/sandstone-resp.less',
+            'css/firefox/template-resp.less',
+            'css/firefox/whatsnew-fx37.less',
+        ),
+        'output_filename': 'css/firefox_whatsnew_37-bundle.css',
     },
     'firefox_whatsnew_fxos': {
         'source_filenames': (
@@ -1509,6 +1511,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js/firefox_sms-bundle.js',
     },
+    'firefox_whatsnew_fx37': {
+        'source_filenames': (
+            'js/firefox/whatsnew-fx37.js',
+        ),
+        'output_filename': 'js/firefox_whatsnew_fx37-bundle.js',
+    },
     'firefox_whatsnew_fxos': {
         'source_filenames': (
             'js/firefox/whatsnew-fxos.js',
@@ -1866,6 +1874,7 @@ MIDDLEWARE_CLASSES = (
     'django_statsd.middleware.GraphiteMiddleware',
     'bedrock.tabzilla.middleware.TabzillaLocaleURLMiddleware',
     'commonware.middleware.RobotsTagHeader',
+    'bedrock.mozorg.middleware.ClacksOverheadMiddleware',
 ) + get_middleware(exclude=(
     'funfactory.middleware.LocaleURLMiddleware',
     'multidb.middleware.PinningRouterMiddleware',
@@ -2026,6 +2035,12 @@ STUB_INSTALLER_LOCALES = {
 
 # Google Analytics
 GA_ACCOUNT_CODE = ''
+
+<<<<<<< HEAD
+GTM_CONTAINER_ID = ''
+=======
+GTM_CONTAINER_ID = 'GTM-PF7MM9'
+>>>>>>> 251f63f... adds data attr to links
 
 # Files from The Web[tm]
 EXTERNAL_FILES = {
@@ -2343,3 +2358,6 @@ FIREFOX_OS_FEEDS = (
 FIREFOX_OS_FEED_LOCALES = [feed[0] for feed in FIREFOX_OS_FEEDS]
 
 TABLEAU_DB_URL = None
+
+MAXMIND_DB_PATH = os.getenv('MAXMIND_DB_PATH', path('GeoIP2-Country.mmdb'))
+MAXMIND_DEFAULT_COUNTRY = os.getenv('MAXMIND_DEFAULT_COUNTRY', 'US')

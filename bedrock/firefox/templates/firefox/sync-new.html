@@ -78,13 +78,13 @@
             {{ _('Download Firefox for Android') }}
           </a>
           <p class="button-footer">
-            <a href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync" class="ga-link">
+            <a href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync" class="ga-link" data-interaction="outbound link click"
               {{ _('Need help?') }}
             </a>
         </div>
 
         <div class="show-fx-31-signed-out">
-          <button class="sync-button" id="cta-sync">
+          <button class="sync-button" id="cta-sync" data-interaction="button click" data-element-action="Sync CTA">
             {{ _('Get started with Sync') }}
           </button>
         </div>
@@ -113,7 +113,7 @@
         <section>
           <ol>
             <li>{% trans url='https://support.mozilla.org/kb/learn-more-about-the-design-of-new-firefox' %}
-              Open the <a class="menu ga-link" href="{{ url }}#w_a-handy-new-menu">menu</a> in the top right of Firefox and select “<strong>Sign in to Sync.</strong>”
+              Open the <a class="menu ga-link" data-interaction="outbound link click" href="{{ url }}#w_a-handy-new-menu">menu</a> in the top right of Firefox and select “<strong>Sign in to Sync.</strong>”
             {% endtrans %}</li>
             {# L10n: <strong> tags below used for font color formatting. #}
             <li>{{ _('Click “<strong>Get started</strong>” in the tab that opens.') }}</li>
@@ -124,16 +124,16 @@
         </section>
         <aside role="complimentary">
           <ul class="unstyled">
-            <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
-            <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
+            <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
+            <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
           </ul>
         </aside>
       </div>
 
       <div class="show-fx-28-older instructions">
         <ul class="unstyled">
-          <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
-          <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
+          <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
+          <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
         </ul>
       </div>
 
@@ -153,8 +153,8 @@
         </section>
         <aside role="complimentary">
           <ul class="unstyled">
-            <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
-            <li><a class="more ga-link" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
+            <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync">{{ _('Get more detailed instructions.') }}</a></li>
+            <li><a class="more ga-link" data-interaction="outbound link click" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync">{{ _('Using an older version of Sync?') }}</a></li>
           </ul>
         </aside>
       </div>

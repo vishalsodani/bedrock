@@ -47,7 +47,12 @@
             } else {
                 localStorage.setItem('mozUITourGlobalFlag', 'taken');
             }
-            gaTrack(['_trackEvent', 'Tour Interaction', 'First Time Seeing Tour', firstTime, 0, true]);
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'firstrun-tour-view',
+                'interaction': 'First Time Seeing Tour',
+                'browserAction': firstTime
+            });
         } catch (e) {}
 
         // track default search engine for Firefox 34

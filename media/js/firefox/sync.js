@@ -93,43 +93,40 @@
         gaTrack(['_trackEvent', '/sync/ Page Interactions', 'load', state]);
     }
 
-    var trackClick = function (gaArgs, element, event) {
+    var trackClick = function (eventObj, element, event) {
         event.preventDefault();
-        gaTrack(gaArgs, function() {
-            window.location = element.href;
-        });
+        eventObj.eventCallback = function() {
+                window.location = element.href;};
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(eventObj);
     };
-
-    // Setup GA tracking for misc links
-    $('.ga-link').on('click', function(e) {
-        trackClick(['_trackEvent', '/sync/ Page Interactions', 'outbound link click', this.href], this, e);
-    });
 
     // Setup GA tracking for Firefox download button
     $('#cta-firefox, .download-button .download-link').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'download click', 'Firefox'], this, e);
+        trackClick({event: 'firefox-downloads', 
+            interaction: 'download click', 
+            downloadVersion: 'Firefox'}, this, e);
     });
 
     // Setup GA tracking for Firefox update button
     $('#cta-update').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'update click', 'Firefox'], this, e);
+        trackClick({event: 'firefox-downloads', 
+            interaction: 'update click', 
+            downloadVersion: 'Firefox'}, this, e);
     });
 
     // Setup GA tracking for Firefox for primary Android download button
     $('#cta-android').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'top', 'Firefox for Android'], this, e);
+        trackClick({event: 'firefox-downloads', 
+            interaction: 'top', 
+            downloadVersion: 'Firefox for Android'}, this, e);
     });
 
     // Setup GA tracking for Firefox for Android footer download button
     $('#cta-android-footer').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'bottom', 'Firefox for Android'], this, e);
-    });
-
-    // Setup GA tracking for Sync button
-    $('#cta-sync').on('click', function(e) {
-        e.preventDefault();
-        gaTrack(['_trackEvent', '/sync/ Page Interactions', 'button click', 'Sync CTA'],
-            Mozilla.UITour.showFirefoxAccounts);
+        trackClick({event: 'firefox-downloads', 
+            interaction: 'bottom', 
+            downloadVersion: 'Firefox for Android'}, this, e);
     });
 
 })(window.jQuery);

@@ -19,12 +19,21 @@
         var callback = function() {
             window.location = href;
         };
-
+        window.dataLayer = window.dataLayer || [];
         if (newTab) {
-            gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform]);
+            window.dataLayer.push({
+                event: 'firefox-downloads', 
+                interaction: 'download click', 
+                downloadVersion: window.site.platform
+            });
         } else {
             e.preventDefault();
-            gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform], callback);
+            window.dataLayer.push({
+                event: 'firefox-downloads', 
+                interaction: 'download click', 
+                downloadVersion: window.site.platform, 
+                eventCallback: callback
+            });
         }
     });
 

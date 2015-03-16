@@ -25,6 +25,8 @@ STATSD_CLIENT = 'django_statsd.clients.normal'
 # Google Apps tracking code
 GA_ACCOUNT_CODE = ''
 
+GTM_CONTAINER_ID = ''
+
 SESSION_COOKIE_SECURE = False
 
 USE_GRUNT_LIVERELOAD = False

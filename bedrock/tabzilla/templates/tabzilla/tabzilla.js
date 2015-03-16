@@ -206,10 +206,9 @@ var Tabzilla = (function (Tabzilla) {
             .removeClass('tabzilla-closed');
 
         panel.focus();
-
-        if (typeof(_gaq) == 'object') {
-            window._gaq.push(['_trackEvent', 'Tabzilla', 'click', 'Open Tabzilla']);
-        }
+        //Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({event: 'tabzilla-interaction', browserAction: 'Open Tabzilla', interaction: 'click'});
 
         return panel;
     };
@@ -223,10 +222,9 @@ var Tabzilla = (function (Tabzilla) {
             .attr({'aria-expanded' : 'false'})
             .addClass('tabzilla-closed')
             .removeClass('tabzilla-opened');
-
-        if (typeof(_gaq) == 'object') {
-            window._gaq.push(['_trackEvent', 'Tabzilla', 'click', 'Close Tabzilla']);
-        }
+        //Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({event: 'tabzilla-interaction', browserAction: 'Close Tabzilla', interaction: 'click'});
 
         return tab;
     };
@@ -388,72 +386,84 @@ var Tabzilla = (function (Tabzilla) {
             return false;
         }
 
+        // Normalize the user language in the form of ab or ab-CD
+        var normalize = function (lang) {
+            return lang.replace(/^(\w+)(?:-(\w+))?$/, function (m, p1, p2) {
+                return p1.toLowerCase() + ((p2) ? '-' + p2.toUpperCase() : '');
+            });
+        };
+
+        // Normalize every language for easier comparison
+        userLangs = $.map(userLangs, function (lang) { return normalize(lang); });
+        pageLang = normalize(pageLang);
+
+        // If the page language is the user's primary language, there is nothing
+        // to do here
+        if (pageLang === userLangs[0]) {
+            return false;
+        }
+
         var offeredLang;
-        var langLinks = [];
-        var langOptions = [];
+        var availableLangs = {};
+        var $links = $('link[hreflang]');
+        var $options = $('#language option');
 
-        // Compare the user's accept languages against the available languages
-        // to find the best language. Use an alternate URL in <head> or a
-        // language option in <form>
+        // Make a dictionary from alternate URLs or a language selector. The key
+        // is a language, the value is the relevant <link> or <option> element.
+        // If those lists cannot be found, there is nothing to do
+        if ($links.length) {
+            $links.each(function () {
+                availableLangs[normalize(this.hreflang)] = this;
+            });
+        } else if ($options.length) {
+            $options.each(function () {
+                availableLangs[normalize(this.value.match(/^\/?([\w\-]+)/)[1])] = this;
+            });
+        } else {
+            return false;
+        }
+
+        // Compare the user's accept languages against the page's current
+        // language and other available languages to find the best language
         $.each(userLangs, function(index, userLang) {
-            // Languages in the language switcher are uncapitalized on some
-            // sites (AMO, Firefox Flicks)
-            var userLangLower = userLang.toLowerCase();
-
-            // The user language can be ab-CD while the page language is ab
-            // (Example: fr-FR vs fr, ja-JP vs ja)
-            var userLangShort = userLangLower.split('-')[0];
-
-            // Compare in lower case
-            var pageLangLower = pageLang.toLowerCase();
-
-            // Compare the user's language and the page's language
-            if (userLangLower === pageLangLower ||
-                    // Consider some legacy locales like fr-FR, it-IT or el-GR
-                    userLangShort === pageLangLower) {
-                // The user is already seeing the page in his/her own language.
-                // No need to show the Translation Bar
+            if (pageLang === userLang || pageLang === userLang.split('-')[0]) {
+                offeredLang = 'self';
                 return false; // Break the loop
             }
 
-            $.each([userLang, userLangLower, userLangShort], function(index, lang) {
-                var links = $('link[hreflang="' + lang + '"]');
-                var options = $('#language [value="' + lang + '"], \
-                                 #language [value^="/' + lang + '/"]');
-
-                if (!links.length && !options.length) {
-                    return true; // Continue the loop
-                }
-
-                if (links.length) {
-                    langLinks = links;
-                }
-
-                if (options.length) {
-                    langOptions = options;
-                }
-
-                offeredLang = lang;
-                return false; // Break the loop
-            });
-
-            if (offeredLang) {
+            if (userLang in availableLangs) {
+                offeredLang = userLang;
                 return false; // Break the loop
             }
         });
 
+        // If the page language is one of the user's secondary languages and no
+        // other higher-priority language cannot be found in the translations,
+        // there is nothing to do
+        if (offeredLang === 'self') {
+            return false;
+        }
+
+        // If an offered language cannot be detected, try again with shorter
+        // language names, like en-US -> en, fr-FR -> fr
         if (!offeredLang) {
-            // No translation is available for the user
+            $.each(userLangs, function(index, userLang) {
+                userLang = userLang.split('-')[0];
+
+                if (userLang in availableLangs) {
+                    offeredLang = userLang;
+                    return false; // Break the loop
+                }
+            });
+        }
+
+        // If there is no offered language yet, there is nothing to do
+        if (!offeredLang) {
             return false;
         }
 
         // Do not show Chrome's built-in Translation Bar
         $('head').append('<meta name="google" value="notranslate">');
-
-        // Normalize the user language in the form of ab or ab-CD
-        offeredLang = offeredLang.replace(/^(\w+)(?:-(\w+))?$/, function (m, p1, p2) {
-            return p1.toLowerCase() + ((p2) ? '-' + p2.toUpperCase() : '');
-        });
 
         // Log the language of the current page
         transbar.onshow.trackLabel = transbar.oncancel.trackLabel = offeredLang;
@@ -464,10 +474,13 @@ var Tabzilla = (function (Tabzilla) {
             trackAction: 'change',
             trackLabel: offeredLang,
             callback: function () {
-                if (langLinks.length) {
-                    location.href = langLinks.attr('href').replace(/^https?\:\/\/[^/]+/, '');
-                } else {
-                    langOptions.attr('selected', 'selected').get(0).form.submit();
+                var element = availableLangs[offeredLang];
+
+                if (element.form) { // <option>
+                    element.selected = true;
+                    element.form.submit();
+                } else { // <link>
+                    location.href = element.href.replace(/^https?\:\/\/[^/]+/, '');
                 }
             }
         };
@@ -540,26 +553,6 @@ var Tabzilla = (function (Tabzilla) {
     // Expose the object for the tests
     Tabzilla.infobar = Infobar;
     var setupGATracking = function () {
-        // track tabzilla links in GA
-        $('#tabzilla-contents').on('click', 'a', function (e) {
-            var newTab = (this.target === '_blank' || e.metaKey || e.ctrlKey);
-            var href = this.href;
-            var timer = null;
-            var callback = function () {
-                clearTimeout(timer);
-                window.location = href;
-            };
-
-            if (typeof(_gaq) == 'object') {
-                if (newTab) {
-                    window._gaq.push(['_trackEvent', 'Tabzilla', 'click', href]);
-                } else {
-                    e.preventDefault();
-                    timer = setTimeout(callback, 500);
-                    window._gaq.push(['_trackEvent', 'Tabzilla', 'click', href], callback);
-                }
-            }
-        });
         // track search keywords in GA
         $('#tabzilla-search form').on('submit', function (e) {
             e.preventDefault();
@@ -574,12 +567,13 @@ var Tabzilla = (function (Tabzilla) {
 
             $form.unbind('submit');
 
-            if (typeof(_gaq) == 'object' && keyword !== '') {
-                timer = setTimeout(callback, 500);
-                window._gaq.push(['_trackEvent', 'Tabzilla', 'search', keyword], callback);
-            } else {
-                $form.submit();
-            }
+            timer = setTimeout(callback, 500);
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'tabzilla-interaction',
+                'interaction': 'search',
+                'browserAction': keyword
+            });
         });
     };
     var addEaseInOut = function () {
@@ -703,13 +697,13 @@ var Tabzilla = (function (Tabzilla) {
     + '    <div id="tabzilla-promo">'
         {% if l10n_has_tag('gear_store') %}
     + '      <div class="snippet" id="tabzilla-promo-gear">'
-    + '        <a href="https://gear.mozilla.org/?ref=OMG_launch&amp;utm_campaign=OMG_launch&amp;utm_source=gear.mozilla.org&amp;utm_medium=referral&amp;utm_content=tabzilla">'
+    + '        <a href="https://gear.mozilla.org/?ref=OMG_launch&amp;utm_campaign=OMG_launch&amp;utm_source=gear.mozilla.org&amp;utm_medium=referral&amp;utm_content=tabzilla" data-element-location="tabzilla">'
     + '          <h4>{{ _('Official Mozilla gear is here')|js_escape }}</h4>'
     + '        </a>'
     + '      </div>'
         {% else %}
     + '      <div class="snippet" id="tabzilla-promo-fxos">'
-    + '        <a href="https://www.mozilla.org/firefox/os/?icn=tabz">'
+    + '        <a href="https://www.mozilla.org/firefox/os/?icn=tabz" data-element-location="tabzilla">'
     + '          <h4>{{ _('Look ahead')|js_escape }}</h4>'
     + '          <p>{{ _('Learn all about Firefox OS')|js_escape }} »</p>'
     + '        </a>'
@@ -721,39 +715,39 @@ var Tabzilla = (function (Tabzilla) {
     + '        <li><h2>Mozilla</h2>'
     + '          <div>'
     + '            <ul>'
-    + '              <li><a href="https://www.mozilla.org/mission/?icn=tabz">{{ _('Mission')|js_escape }}</a></li>'
-    + '              <li><a href="https://www.mozilla.org/about/?icn=tabz">{{ _('About')|js_escape }}</a></li>'
-    + '              <li><a href="https://www.mozilla.org/projects/?icn=tabz">{{ _('Projects')|js_escape }}</a></li>'
-    + '              <li><a href="https://support.mozilla.org/?icn=tabz">{{ _('Support')|js_escape }}</a></li>'
-    + '              <li><a href="https://developer.mozilla.org/?icn=tabz">{{ _('Developer Network')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/mission/?icn=tabz" data-element-location="tabzilla">{{ _('Mission')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/about/?icn=tabz" data-element-location="tabzilla">{{ _('About')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/projects/?icn=tabz" data-element-location="tabzilla">{{ _('Projects')|js_escape }}</a></li>'
+    + '              <li><a href="https://support.mozilla.org/?icn=tabz" data-element-location="tabzilla">{{ _('Support')|js_escape }}</a></li>'
+    + '              <li><a href="https://developer.mozilla.org/?icn=tabz" data-element-location="tabzilla">{{ _('Developer Network')|js_escape }}</a></li>'
     + '            </ul>'
     + '          </div>'
     + '        </li>'
     + '        <li><h2>{{ _('Products')|js_escape }}</h2>'
     + '          <div>'
     + '            <ul>'
-    + '              <li><a href="https://www.mozilla.org/firefox/?icn=tabz">Firefox</a></li>'
-    + '              <li><a href="https://www.mozilla.org/thunderbird/?icn=tabz">Thunderbird</a></li>'
-    + '              <li><a href="https://www.mozilla.org/firefox/os/?icn=tabz">Firefox OS</a></li>'
+    + '              <li><a href="https://www.mozilla.org/firefox/?icn=tabz" data-element-location="tabzilla">Firefox</a></li>'
+    + '              <li><a href="https://www.mozilla.org/thunderbird/?icn=tabz" data-element-location="tabzilla">Thunderbird</a></li>'
+    + '              <li><a href="https://www.mozilla.org/firefox/os/?icn=tabz" data-element-location="tabzilla">Firefox OS</a></li>'
     + '            </ul>'
     + '          </div>'
     + '        </li>'
     + '        <li><h2>{{ _('Innovations')|js_escape }}</h2>'
     + '          <div>'
     + '            <ul>'
-    + '              <li><a href="https://webmaker.org/?icn=tabz">Webmaker</a></li>'
-    + '              <li><a href="https://www.mozilla.org/research/?icn=tabz">{{ _('Research')|js_escape }}</a></li>'
+    + '              <li><a href="https://webmaker.org/?icn=tabz" data-element-location="tabzilla">Webmaker</a></li>'
+    + '              <li><a href="https://www.mozilla.org/research/?icn=tabz" data-element-location="tabzilla">{{ _('Research')|js_escape }}</a></li>'
     + '            </ul>'
     + '          </div>'
     + '        </li>'
     + '        <li><h2>{{ _('Get Involved')|js_escape }}</h2>'
     + '          <div>'
     + '            <ul>'
-    + '              <li><a href="https://www.mozilla.org/contribute/?icn=tabz">{{ _('Volunteer')|js_escape }}</a></li>'
-    + '              <li><a href="https://careers.mozilla.org/?icn=tabz">{{ _('Careers')|js_escape }}</a></li>'
-    + '              <li><a href="https://www.mozilla.org/en-US/about/mozilla-spaces/?icn=tabz">{{ _('Find us')|js_escape }}</a></li>'
-    + '              <li><a href="{{ donate_url('mozillaorg_tabzillaTXT') }}&icn=tabz" class="donate">{{ _('Donate')|js_escape }}</a></li>'
-    + '              <li><a href="https://www.mozilla.org/about/partnerships/?icn=tabz">{{ _('Partner')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/contribute/?icn=tabz" data-element-location="tabzilla">{{ _('Volunteer')|js_escape }}</a></li>'
+    + '              <li><a href="https://careers.mozilla.org/?icn=tabz" data-element-location="tabzilla">{{ _('Careers')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/en-US/about/mozilla-spaces/?icn=tabz" data-element-location="tabzilla">{{ _('Find us')|js_escape }}</a></li>'
+    + '              <li><a href="{{ donate_url('mozillaorg_tabzillaTXT') }}&icn=tabz" class="donate" data-element-location="tabzilla">{{ _('Donate')|js_escape }}</a></li>'
+    + '              <li><a href="https://www.mozilla.org/about/partnerships/?icn=tabz" data-element-location="tabzilla">{{ _('Partner')|js_escape }}</a></li>'
     + '            </ul>'
     + '          </div>'
     + '        </li>'
