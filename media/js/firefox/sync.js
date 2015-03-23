@@ -106,24 +106,24 @@
     });
 
     // Setup GA tracking for Firefox download button
-    $('#cta-firefox, .download-button .download-link').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'download click', 'Firefox'], this, e);
-    });
+    // $('#cta-firefox, .download-button .download-link').on('click', function(e) {
+    //     trackClick(['_trackEvent', 'Firefox Downloads', 'download click', 'Firefox'], this, e);
+    // });
 
     // Setup GA tracking for Firefox update button
-    $('#cta-update').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'update click', 'Firefox'], this, e);
-    });
+    // $('#cta-update').on('click', function(e) {
+    //     trackClick(['_trackEvent', 'Firefox Downloads', 'update click', 'Firefox'], this, e);
+    // });
 
     // Setup GA tracking for Firefox for primary Android download button
-    $('#cta-android').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'top', 'Firefox for Android'], this, e);
-    });
+    // $('#cta-android').on('click', function(e) {
+    //     trackClick(['_trackEvent', 'Firefox Downloads', 'top', 'Firefox for Android'], this, e);
+    // });
 
     // Setup GA tracking for Firefox for Android footer download button
-    $('#cta-android-footer').on('click', function(e) {
-        trackClick(['_trackEvent', 'Firefox Downloads', 'bottom', 'Firefox for Android'], this, e);
-    });
+    // $('#cta-android-footer').on('click', function(e) {
+    //     trackClick(['_trackEvent', 'Firefox Downloads', 'bottom', 'Firefox for Android'], this, e);
+    // });
 
     // Setup GA tracking for Sync button
     $('#cta-sync').on('click', function(e) {

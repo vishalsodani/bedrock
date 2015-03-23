@@ -18,10 +18,12 @@
 
         var trackDownloadButtonClick = function(a, position) {
             var href = a.href;
-
-            gaTrack(['_trackEvent', 'Firefox Downloads', 'download click - ' + position, 'Firefox for Desktop'], function() {
-                window.location = href;
-            });
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({event: 'firefox-downloads', interaction: 'download click - ' + position, downloadVersion: 'Firefox for Desktop', eventCallback: function() {
+                            window.location = href;}});
+            // gaTrack(['_trackEvent', 'Firefox Downloads', 'download click - ' + position, 'Firefox for Desktop'], function() {
+            //     window.location = href;
+            // });
         };
 
         // hide the footer download button and extend email form to full width

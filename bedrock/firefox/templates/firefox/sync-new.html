@@ -74,7 +74,7 @@
 
       <div class="buttons">
         <div class="show-fx-31-signed-in">
-          <a href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" class="sync-button green" id="cta-android">
+          <a href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" class="sync-button green" id="cta-android"data-button-type="download" data-interaction="top" data-download-version="Firefox for Android">
             {{ _('Download Firefox for Android') }}
           </a>
           <p class="button-footer">
@@ -90,13 +90,13 @@
         </div>
 
         <div class="show-fx-29-30">
-          <a href="https://support.mozilla.org/kb/update-firefox-latest-version" class="sync-button" id="cta-update">
+          <a href="https://support.mozilla.org/kb/update-firefox-latest-version" class="sync-button" id="cta-update" data-button-type="download" data-interaction="update click" data-download-version="Firefox">
             {{ _('Update your Firefox') }}
           </a>
         </div>
 
         <div class="show-fx-28-older">
-          <a href="{{ url('firefox.new') }}?scene=2#download-fx" class="sync-button green" id="cta-firefox">
+          <a href="{{ url('firefox.new') }}?scene=2#download-fx" class="sync-button green" id="cta-firefox" data-button-type="download" data-interaction="download click" data-download-version="Firefox">
             {{ _('Download Firefox') }}
           </a>
         </div>
@@ -201,7 +201,7 @@
     <div class="container">
       <header>
         <h3>{{ _('Have an <b>Android smartphone</b> or <b>tablet</b>?') }}</h3>
-        <a href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" class="sync-button green" id="cta-android-footer">
+        <a href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" class="sync-button green" id="cta-android-footer" data-button-type="download" data-interaction="bottom" data-download-version="Firefox for Android">
           {{ _('DOWNLOAD FIREFOX FOR ANDROID') }}
         </a>
       </header>

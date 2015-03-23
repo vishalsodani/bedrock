@@ -13,20 +13,19 @@
         $('#fx10-download').show();
     }
 
-    $('#fx10-download .download-link').on('click', function(e) {
-        var newTab = (this.target === '_blank' || e.metaKey || e.ctrlKey);
-        var href = this.href;
-        var callback = function() {
-            window.location = href;
-        };
-
-        if (newTab) {
-            gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform]);
-        } else {
-            e.preventDefault();
-            gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform], callback);
-        }
-    });
+    // $('#fx10-download .download-link').on('click', function(e) {
+    //     var newTab = (this.target === '_blank' || e.metaKey || e.ctrlKey);
+    //     var href = this.href;
+    //     var callback = function() {
+    //         window.location = href;
+    //     };
+    //     if (newTab) {
+    //         // gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform]);
+    //     } else {
+    //         e.preventDefault();
+    //         // gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', window.site.platform], callback);
+    //     }
+    // });
 
     // Initialize the video
     // Defined in /js/base/firefox-anniversary-video.js
