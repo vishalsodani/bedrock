@@ -142,9 +142,6 @@ $(function () {
         var tilePosition = $promo.prop('id');
         var tileSize = 'promo-small-landscape';
 
-        // gaTrack(['_setCustomVar', 10, 'Homepage Tile Position', tilePosition, 3]);
-        // gaTrack(['_setCustomVar', 11, 'Homepage Tile Size', tileSize, 3]);
-
         window.dataLayer = window.dataLayer || [];
         if (newTab) {
             window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize});
