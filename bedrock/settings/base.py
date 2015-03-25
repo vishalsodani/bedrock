@@ -2020,7 +2020,7 @@ STUB_INSTALLER_LOCALES = {
 # Google Analytics
 GA_ACCOUNT_CODE = ''
 
-GTM_CONTAINER_ID = 'GTM-PF7MM9'
+GTM_CONTAINER_ID = ''
 
 # Files from The Web[tm]
 EXTERNAL_FILES = {

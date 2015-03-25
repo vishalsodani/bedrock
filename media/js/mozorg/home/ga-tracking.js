@@ -24,16 +24,6 @@ $(function () {
         }
     }
 
-    function trackDownloadButton(action, label, callback) {
-        window.dataLayer = window.dataLayer || [];
-        if (typeof callback === 'function') {
-
-            // gaTrack(['_trackEvent', 'Firefox Downloads', action, label], callback);
-        } else {
-            // gaTrack(['_trackEvent', 'Firefox Downloads', action, label]);
-        }
-    }
-
     // track user scrolling through each section down the page
     $('.module').waypoint(function(direction) {
         if (direction === 'down') {
@@ -152,17 +142,15 @@ $(function () {
         var tilePosition = $promo.prop('id');
         var tileSize = 'promo-small-landscape';
 
-        gaTrack(['_setCustomVar', 10, 'Homepage Tile Position', tilePosition, 3]);
-        gaTrack(['_setCustomVar', 11, 'Homepage Tile Size', tileSize, 3]);
+        // gaTrack(['_setCustomVar', 10, 'Homepage Tile Position', tilePosition, 3]);
+        // gaTrack(['_setCustomVar', 11, 'Homepage Tile Size', tileSize, 3]);
 
         window.dataLayer = window.dataLayer || [];
         if (newTab) {
-            window.dataLayer.push({event: 'firefox-download', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize});
-            // trackDownloadButton('download click - top', type);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize});
         } else {
             e.preventDefault();
-            window.dataLayer.push({{event: 'firefox-download', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize, eventCallback: callback});
-            // trackDownloadButton('download click - top', type, callback);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize, eventCallback: callback});
         }
     });
 
@@ -177,11 +165,12 @@ $(function () {
             window.location = href;
         };
 
+        window.dataLayer = window.dataLayer || [];
         if (newTab) {
-            // trackDownloadButton('download click - primary', type);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - primary', downloadVersion: type});
         } else {
             e.preventDefault();
-            // trackDownloadButton('download click - primary', type, callback);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - primary', downloadVersion: type, eventCallback: callback});
         }
     });
 

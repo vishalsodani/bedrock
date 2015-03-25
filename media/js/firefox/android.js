@@ -274,30 +274,34 @@
             }
         }
     }
-
-    var trackClick = function (gaArgs, event) {
+    
+    var trackClick = function (gaObj, event) {
+        window.dataLayer = window.dataLayer || [];
         if (event.metaKey || event.ctrlKey) {
             // Open link in new tab
-            gaTrack(gaArgs);
+            window.dataLayer.push(gaObj);
+            // gaTrack(gaArgs);
         } else {
             event.preventDefault();
-            gaTrack(gaArgs, function() { window.location = event.target.href; });
-        }
-    };
+            gaObj.eventCallback = function() { window.location = event.target.href;
+            window.dataLayer.push(gaObj);
+            // gaTrack(gaArgs, function() { window.location = event.target.href; });
+        };
+    }
 
     // track link on the primary CTA
-    // $('#intro .dl-button').on('click', function (event) {
-    //     trackClick(['_trackEvent', 'Firefox Downloads', 'download click', 'Firefox for Android'], event);
-    // });
+    $('#intro .dl-button').on('click', function (event) {
+        trackClick({event: 'firefox-downloads', interaction: 'download click', downloadVersion: 'Firefox for Android'}, event);
+    });
 
     // track link on the secondary CTA
-    // $('#subscribe-download-wrapper .dl-button').on('click', function(event) {
-    //     trackClick(['_trackEvent', 'Firefox Downloads', 'bottom download click', 'Firefox for Android'], event);
-    // });
+    $('#subscribe-download-wrapper .dl-button').on('click', function(event) {
+        trackClick({event: 'firefox-downloads', interaction: 'button download click', downloadVersion: 'Firefox for Android'}, event);        
+    });
 
     // track links except the accordion
     $('#privacy, #sync, #subscribe-download-wrapper ul').on('click', 'a', function(event) {
-        trackClick(['_trackEvent', '/android/ Interactions', 'link click', $(this).attr('href')], event);
+        trackClick({event: 'firefox-downloads', interaction: 'link click', downloadVersion: $(this).attr('href')}, event);                
     });
 
     // track accordion interactions

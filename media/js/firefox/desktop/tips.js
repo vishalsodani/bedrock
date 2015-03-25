@@ -185,9 +185,6 @@
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click', downloadVersion: 'Firefox for Desktop', eventCallback: function() {
                 window.location = href;}});
-            // gaTrack(['_trackEvent', 'Firefox Downloads', 'download click', 'Firefox for Desktop'], function() {
-            //     window.location = href;
-            // });
         });
     });
 })(window.jQuery, window.Hammer);
