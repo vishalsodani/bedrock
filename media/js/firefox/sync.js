@@ -101,11 +101,6 @@
         window.dataLayer.push(eventObj);
     };
 
-    // Setup GA tracking for misc links
-    $('.ga-link').on('click', function(e) {
-        trackClick(['_trackEvent', '/sync/ Page Interactions', 'outbound link click', this.href], this, e);
-    });
-
     // Setup GA tracking for Firefox download button
     $('#cta-firefox, .download-button .download-link').on('click', function(e) {
         trackClick({event: 'firefox-downloads', 
@@ -132,13 +127,6 @@
         trackClick({event: 'firefox-downloads', 
             interaction: 'bottom', 
             downloadVersion: 'Firefox for Android'}, this, e);
-    });
-
-    // Setup GA tracking for Sync button
-    $('#cta-sync').on('click', function(e) {
-        e.preventDefault();
-        gaTrack(['_trackEvent', '/sync/ Page Interactions', 'button click', 'Sync CTA'],
-            Mozilla.UITour.showFirefoxAccounts);
     });
 
 })(window.jQuery);
