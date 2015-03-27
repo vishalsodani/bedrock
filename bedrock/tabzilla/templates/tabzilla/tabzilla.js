@@ -209,7 +209,6 @@ var Tabzilla = (function (Tabzilla) {
         //Google Analytics
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({event: 'tabzilla-interaction', browserAction: 'Open Tabzilla', interaction: 'click'});
-
         return panel;
     };
     Tabzilla.close = function () {

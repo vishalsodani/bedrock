@@ -2036,11 +2036,8 @@ STUB_INSTALLER_LOCALES = {
 # Google Analytics
 GA_ACCOUNT_CODE = ''
 
-<<<<<<< HEAD
 GTM_CONTAINER_ID = ''
-=======
-GTM_CONTAINER_ID = 'GTM-PF7MM9'
->>>>>>> 251f63f... adds data attr to links
+
 
 # Files from The Web[tm]
 EXTERNAL_FILES = {
