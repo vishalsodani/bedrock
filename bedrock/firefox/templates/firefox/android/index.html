@@ -49,7 +49,7 @@
       </p>
 
       <div class="dl-button-wrapper">
-        <a class="dl-button" rel="external" href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}">
+        <a class="dl-button" rel="external" href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" data-button-type="download" data-interaction="download click" data-download-version="Firefox for Android">
           {{ _('Download on Google Play') }}
         </a>
 
@@ -226,7 +226,7 @@
             {% endtrans %}
             </p>
 
-            <a rel="external" href="https://support.mozilla.org/kb/send-webpages-your-tv-firefox-android-chromecast" class="learn-more">{{ _('Learn more') }}</a>
+            <a rel="external" href="https://support.mozilla.org/kb/use-firefox-android-send-videos-chromecast" class="learn-more">{{ _('Learn more') }}</a>
 
             <figure>
               <div class="media-desktop">
@@ -344,7 +344,7 @@
 
         <div id="download-content">
           <h3>{{ _('Choose Firefox') }}</h3>
-          <a class="dl-button" rel="external" href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}">
+          <a class="dl-button" rel="external" href="{{ settings.GOOGLE_PLAY_FIREFOX_LINK }}" data-button-type="download" data-interaction="button download click" data-download-version="Firefox for Android">
             {{ _('Download on Google Play') }}
           </a>
 

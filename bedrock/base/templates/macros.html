@@ -447,7 +447,7 @@ set share_urls = {
   <footer id="fx-anniversary-video-footer">
     <div id="fx-anniversary-video-footer-button" class="buttons {{ button_footer }}">
       {{ share_cta(_('Share the video'), share_urls, _('Keep the passion for a free and open Internet burning bright! #ChooseIndependent. Choose Firefox:')) }}
-      <a href="{{ url('firefox.new') }}" class="download-link">{{ _('Download Firefox') }}</a>
+      <a href="{{ url('firefox.new') }}" class="download-link" data-button-type="download" data-interaction="download-click" data-download-version="platform">{{ _('Download Firefox') }}</a>
     </div>
   </footer>
 </section>{#-- /#fx-anniversary-video-widget #}

@@ -390,7 +390,7 @@ PIPELINE_CSS = {
     'firefox_sms': {
         'source_filenames': (
             'css/sandstone/sandstone-resp.less',
-            'css/libs/socialshare/socialshare.less',
+            'css/base/mozilla-share-cta.less',
             'css/firefox/template-resp.less',
             'css/sandstone/video-resp.less',
             'css/firefox/mobile-sms.less',
@@ -651,6 +651,14 @@ PIPELINE_CSS = {
             'css/firefox/whatsnew-android.less',
         ),
         'output_filename': 'css/firefox_whatsnew-bundle.css',
+    },
+    'firefox_whatsnew_37': {
+        'source_filenames': (
+            'css/sandstone/sandstone-resp.less',
+            'css/firefox/template-resp.less',
+            'css/firefox/whatsnew-fx37.less',
+        ),
+        'output_filename': 'css/firefox_whatsnew_37-bundle.css',
     },
     'firefox_whatsnew_fxos': {
         'source_filenames': (
@@ -1499,9 +1507,15 @@ PIPELINE_JS = {
     'firefox_sms': {
         'source_filenames': (
             'js/firefox/sms.js',
-            'js/libs/socialshare.min.js',
+            'js/base/mozilla-share-cta.js',
         ),
         'output_filename': 'js/firefox_sms-bundle.js',
+    },
+    'firefox_whatsnew_fx37': {
+        'source_filenames': (
+            'js/firefox/whatsnew-fx37.js',
+        ),
+        'output_filename': 'js/firefox_whatsnew_fx37-bundle.js',
     },
     'firefox_whatsnew_fxos': {
         'source_filenames': (

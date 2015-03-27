@@ -24,14 +24,6 @@ $(function () {
         }
     }
 
-    function trackDownloadButton(action, label, callback) {
-        if (typeof callback === 'function') {
-            gaTrack(['_trackEvent', 'Firefox Downloads', action, label], callback);
-        } else {
-            gaTrack(['_trackEvent', 'Firefox Downloads', action, label]);
-        }
-    }
-
     // track user scrolling through each section down the page
     $('.module').waypoint(function(direction) {
         if (direction === 'down') {
@@ -139,7 +131,6 @@ $(function () {
     $('.promo-small-landscape.firefox-download a.download-link').on('click', function(e) {
         var $this = $(this);
         var $promo = $this.closest('.promo-small-landscape');
-        var id = $promo.prop('id');
         var isAndroid = $promo.find('li.os_android:visible').length > 0;
         var type = isAndroid ? 'Firefox Android' : 'Firefox Desktop';
         var newTab = (this.target === '_blank' || e.metaKey || e.ctrlKey);
@@ -148,14 +139,15 @@ $(function () {
             window.location = href;
         };
 
-        gaTrack(['_setCustomVar', 10, 'Homepage Tile Position', id, 3]);
-        gaTrack(['_setCustomVar', 11, 'Homepage Tile Size', 'promo-small-landscape', 3]);
+        var tilePosition = $promo.prop('id');
+        var tileSize = 'promo-small-landscape';
 
+        window.dataLayer = window.dataLayer || [];
         if (newTab) {
-            trackDownloadButton('download click - top', type);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize});
         } else {
             e.preventDefault();
-            trackDownloadButton('download click - top', type, callback);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - top', downloadVersion: type, tilePosition: tilePosition, tileSize: tileSize, eventCallback: callback});
         }
     });
 
@@ -170,11 +162,12 @@ $(function () {
             window.location = href;
         };
 
+        window.dataLayer = window.dataLayer || [];
         if (newTab) {
-            trackDownloadButton('download click - primary', type);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - primary', downloadVersion: type});
         } else {
             e.preventDefault();
-            trackDownloadButton('download click - primary', type, callback);
+            window.dataLayer.push({event: 'firefox-downloads', interaction: 'download click - primary', downloadVersion: type, eventCallback: callback});
         }
     });
 

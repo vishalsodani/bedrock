@@ -154,7 +154,8 @@ $(function () {
 
                 // track signup in GA
                 var newsletter = getNewsletterName($self);
-                gaTrack({event: 'newsletter-registration', browserAction: 'submit', newsletter: newsletter});
+                gaTrack({event: 'newsletter-interaction', browserAction: 'submit', newsletter: newsletter});
+                // gaTrack(['_trackEvent', 'Newsletter Registration', 'submit', newsletter]);
 
             } else if (data.errors) {
                 for (var i = 0; i < data.errors.length; i++) {
