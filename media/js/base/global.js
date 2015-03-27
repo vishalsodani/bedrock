@@ -168,7 +168,7 @@ function gaTrack(obj, callback) {
     //           $(_this).off('submit', handler); 
     //           gaTrack(
     //             {
-    //               'event': 'newsletter-registration',
+    //               'event': 'newsletter-interaction',
     //               'browserAction': 'submit',
     //               'newsletter': newsletter  
     //              }, 

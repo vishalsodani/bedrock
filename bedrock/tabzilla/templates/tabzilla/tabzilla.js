@@ -223,7 +223,7 @@ var Tabzilla = (function (Tabzilla) {
             .removeClass('tabzilla-opened');
         //Google Analytics
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({event: 'tabzilla-tab', browserAction: 'Close Tabzilla', interaction: 'click'});
+        window.dataLayer.push({event: 'tabzilla-interaction', browserAction: 'Close Tabzilla', interaction: 'click'});
 
         return tab;
     };
@@ -569,7 +569,7 @@ var Tabzilla = (function (Tabzilla) {
             timer = setTimeout(callback, 500);
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-                'event': 'tabzilla-search',
+                'event': 'tabzilla-interaction',
                 'interaction': 'search',
                 'browserAction': keyword
             });
