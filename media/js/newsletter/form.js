@@ -156,8 +156,6 @@ $(function () {
                 var newsletter = getNewsletterName($self);
                 gaTrack({event: 'newsletter-registration', browserAction: 'submit', newsletter: newsletter});
 
-                // gaTrack(['_trackEvent', 'Newsletter Registration', 'submit', newsletter]);
-
             } else if (data.errors) {
                 for (var i = 0; i < data.errors.length; i++) {
                     $errorlist.append('<li>' + data.errors[i] + '</li>');
