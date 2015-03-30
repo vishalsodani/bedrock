@@ -257,6 +257,13 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/contact-spaces-ie7-bundle.css',
     },
+    'contentservices': {
+        'source_filenames': (
+            'css/sandstone/video-resp.less',
+            'css/mozorg/contentservices.less',
+        ),
+        'output_filename': 'css/contentservices-bundle.css',
+    },
     'contribute-old': {
         'source_filenames': (
             'css/mozorg/contribute/contribute-form.less',
