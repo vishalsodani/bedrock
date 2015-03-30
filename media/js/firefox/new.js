@@ -161,7 +161,7 @@
 
             // On Android, skip all the scene transitions. We're just linking
             // to the Play Store.
-            return;F
+            return;
         }
 
         function show_scene(scene, animate) {

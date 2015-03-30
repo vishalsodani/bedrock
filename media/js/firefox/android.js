@@ -280,14 +280,12 @@
         if (event.metaKey || event.ctrlKey) {
             // Open link in new tab
             window.dataLayer.push(gaObj);
-            // gaTrack(gaArgs);
         } else {
             event.preventDefault();
-            gaObj.eventCallback = function() { window.location = event.target.href;
+            gaObj.eventCallback = function() { window.location = event.target.href;};
             window.dataLayer.push(gaObj);
-            // gaTrack(gaArgs, function() { window.location = event.target.href; });
-        };
-    }
+        }
+    };
 
     // track link on the primary CTA
     $('#intro .dl-button').on('click', function (event) {
@@ -324,7 +322,7 @@
             interaction = $(this).hasClass('see-how') ? 'see how it works link click' : 'learn more link click';
             trackClick(['_trackEvent', '/android/ Interactions', interaction, section], event);
         });
-    })
+    });
 
     // track scroll
     $('#wrapper > *').waypoint(function(direction) {
