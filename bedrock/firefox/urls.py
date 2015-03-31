@@ -85,6 +85,7 @@ urlpatterns = patterns('',
         decorators=waffle_switch('firefox-os-tv')),
 
     page('firefox/independent', 'firefox/independent.html'),
+    page('firefox/reading/start', 'firefox/reader-mode.html'),
 
     # Release notes
     url('^(?:%s)/(?:%s/)?notes/$' % (product_re, channel_re),

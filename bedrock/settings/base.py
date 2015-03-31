@@ -627,6 +627,12 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/firefox_releases_index-bundle.css',
     },
+    'firefox_reader_mode': {
+        'source_filenames': (
+            'css/firefox/reader-mode.less',
+        ),
+        'output_filename': 'css/firefox_reader_mode-bundle.css',
+    },
     'firefox_privacy_tour': {
         'source_filenames': (
             'css/sandstone/sandstone.less',
